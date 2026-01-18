@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday💚</title>
+
+<style>
+body{
+  margin:0;
+  background:#e6f4ea;
+  font-family:"Times New Roman", serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.container{
+  width:360px;
+  height:640px;
+  background:#f6fff9;
+  border-radius:25px;
+  padding:20px;
+  text-align:center;
+  overflow:hidden;
+  position:relative;
+}
+
+.slide{
+  display:none;
+  height:100%;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.slide.active{
+  display:flex;
+}
+
+h1,h2,p{ color:#2f6f4e; }
+
+button{
+  margin-top:15px;
+  padding:10px 18px;
+  border:none;
+  border-radius:20px;
+  background:#6fbf8e;
+  color:white;
+  font-family:"Times New Roman", serif;
+}
+
+.big-text{
+  font-size:42px;
+  animation:slideIn 1.2s forwards;
+}
+
+@keyframes slideIn{
+  from{transform:translateX(-120%);}
+  to{transform:translateX(0);}
+}
+
+.gifts{
+  display:flex;
+  gap:10px;
+}
+
+.gift{
+  width:80px;
+  height:80px;
+  background:#7fc8a9;
+  border-radius:15px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:40px;
+  cursor:pointer;
+}
+
+.envelope{
+  width:200px;
+  height:120px;
+  background:#c9b29b;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.letter{
+  display:none;
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.fact{ animation:fade 1s forwards; }
+
+@keyframes fade{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+<div class="music-box">
+  <button id="musicBtn" onclick="startMusic()">
+    Play Music 🎵
+  </button>
+
+  <audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+</div>
+<div class="container">
+
+<!-- Slide 1 -->
+<div class="slide active">
+  <h1 class="big-text">💚HAPPY💚<br>💚BIRTHDAY💚</h1>
+  <button onclick="next()">lanjut</button>
+</div>
+
+<!-- Slide 2 -->
+<div class="slide">
+  <h2>Pick A Little Gift For You🎁</h2>
+  <div class="gifts">
+    <div class="gift" onclick="gift('Virtual hug untuk semua rasa sedih hari ini🤗')">🎁</div>
+    <div class="gift" onclick="gift('Semua doa baik tanpa jeda💚')">🎁</div>
+    <div class="gift" onclick="gift('Donat gula kantin boga😝')">🎁</div>
+  </div>
+  <p id="giftText"></p>
+  <button onclick="next()">lanjut</button>
+</div>
+
+<!-- Slide 3 -->
+<div class="slide">
+  <h2 id="pop1" style="opacity:0">eh…</h2>
+  <h2 id="pop2" style="opacity:0">ada yang nambah umur😳</h2>
+  <h2 id="pop3" style="opacity:0">Final chapter of the teen era💚</h2>
+  <h2 id="pop4" style="opacity:0">tapi keren sih</h2>
+  <button onclick="showPop()">munculin</button>
+  <button onclick="next()">next</button>
+</div>
+
+<!-- Slide 4 -->
+<div class="slide">
+  <h2>Little reminder 🌱</h2>
+  <p class="fact">life is longer than you think</p>
+  <p class="fact">and</p>
+  <p class="fact">there will be time to do everything🤍</p>
+  <button onclick="next()">lanjut</button>
+</div>
+
+<!-- Slide 5 -->
+<div class="slide">
+  <h2>Buka surat 💌</h2>
+  <div class="envelope" onclick="openLetter()"></div>
+  <div class="letter" id="letter">
+    <p id="typed"></p>
+  </div>
+  <button onclick="next()">lanjut</button>
+</div>
+
+<!-- Slide 6 -->
+<div class="slide">
+  <h2>Pilih doa 🌿</h2>
+  <button onclick="wish('semoga sehat selalu 💚')">Sehat</button>
+  <button onclick="wish('semoga bahagia tanpa jeda 🌱')">Bahagia</button>
+  <button onclick="wish('semoga semua mimpi tercapai bahkan lebih ✨')">Mimpi</button>
+  <p id="wishText"></p>
+  <button onclick="next()">lanjut</button>
+</div>
+
+<!-- Slide 7 -->
+<div class="slide">
+  <h2>Fun facts tentang willa yang aku tau</h2>
+  <p>🌿 grebak grebuk pol (gausah buru-buru pls)😭</p>
+  <p>🌿 sok gwenchana padahal nangis</p>
+  <p>🌿 sayang aku kayanya (wajib sih harusnya)😝</p>
+  <button onclick="next()">lanjut</button>
+</div>
+
+<!-- Slide 8 -->
+<div class="slide">
+  <h1>udah ya </h1>
+  <p>kalo dilanjutin takut dirimu meleleh jadi lumpur</p>
+  <p>happy birthday sekali lagi wil wil willAaAaaaa🌱</p>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+let slide=0;
+const slides=document.querySelectorAll('.slide');
+
+function next(){
+  slides[slide].classList.remove('active');
+  slide++;
+  if(slide<slides.length){
+    slides[slide].classList.add('active');
+    confetti({particleCount:80,spread:70});
+  }
+}
+
+function gift(text){
+  document.getElementById('giftText').innerText=text;
+  confetti({particleCount:120,spread:90});
+}
+
+function showPop(){
+  pop1.style.opacity=1;
+  setTimeout(()=>pop2.style.opacity=1,600);
+  setTimeout(()=>pop3.style.opacity=1,1200);
+}
+
+const msg="Terimakasih banyak udah lahir & hidup sampai sekarang, willa. Terimakasih banyak sudah menjadi alasan aku bahagia setiap hari, aku ga pernah merasa sendirian & kesepian lagi sekarang. Semoga Tuhan membalas semua hal yang baik. Bahagia selalu, ceria selalu, kenyang selalu juga jangan lupa. Look at me kalo merasa semua orang jahat, nanti aku jahatin lagi hahaha. Boong tapi, nanti kita pukul satu-satu orang yang jahat💚";
+let i=0;
+function openLetter(){
+  document.getElementById('letter').style.display='block';
+  type();
+}
+function type(){
+  if(i<msg.length){
+    typed.innerHTML+=msg.charAt(i);
+    i++;
+    setTimeout(type,40);
+  }
+}
+
+function wish(text){
+  document.getElementById('wishText').innerText=text;
+  confetti({particleCount:100,spread:80});
+}
+</script>
+<script>
+function startMusic(){
+  document.getElementById("bgMusic").play();
+  document.getElementById("musicBtn").style.display = "none";
+}
+</script>
+</body>
+</html>
